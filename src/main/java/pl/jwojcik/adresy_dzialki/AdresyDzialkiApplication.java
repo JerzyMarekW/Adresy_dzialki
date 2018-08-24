@@ -1,0 +1,12 @@
+package pl.jwojcik.adresy_dzialki;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class AdresyDzialkiApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(AdresyDzialkiApplication.class, args);
+    }
+}
