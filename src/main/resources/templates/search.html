@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Wyszukaj adres lub działkę</title>
+</head>
+<body>
+<form action="/result" method="post">
+    Województwo:<br>
+    <select onchange=""
+            th:field="*{provinces}">
+        <option th:each="province : ${provinces.values()}"
+                th:value="${province.wojIdTeryt}"
+                th:text="${province.wojNazwa}">
+        </option>
+    </select><br>
+    Powiat:<br>
+    <select th:field="*{counties}">
+        <option th:each="county : ${counties.values()}"
+                th:value="${county.getPowIdTeryt()}"
+                th:text="${county.getPowNazwa()}">
+        </option>
+    </select><br>
+    Gmina:<br>
+    <select th:field="*{communes}">
+        <option th:each="commune : ${communes.values()}"
+                th:value="${commune.getGmIdTeryt()}"
+                th:text="${commune.getGmNazwa()}">
+        </option>
+    </select><br>
+    Miejscowość:<br>
+    <select th:field="*{towns}">
+        <option th:each="town : ${towns.values()}"
+                th:value="${town.getMiejscIdTeryt()}"
+                th:text="${town.getMiejscNazwa()}">
+        </option>
+    </select><br>
+    Adres:<br>
+
+    <input type="submit" value="Szukaj">
+</form>
+</body>
+</html>

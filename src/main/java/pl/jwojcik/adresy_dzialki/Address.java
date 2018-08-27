@@ -1,10 +1,13 @@
 package pl.jwojcik.adresy_dzialki;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 @Data
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class Address {
-
+    private String pktNumer;
+    private String pktStatus;
+    private String pktKodPocztowy;
+    private Double pktX;
+    private Double pktY;
+    private String pktPrgIIPId;
 }
