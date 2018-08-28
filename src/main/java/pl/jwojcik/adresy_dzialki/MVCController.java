@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -29,6 +28,8 @@ public class MVCController {
 
         Map<String, Town> towns = portalService.findAllTowns("0609082");
         model.addAttribute("towns", towns);
+
+//        Map<String, Address> addresses = portalService.findAllAddresses("");
 
         return "search";
     }
