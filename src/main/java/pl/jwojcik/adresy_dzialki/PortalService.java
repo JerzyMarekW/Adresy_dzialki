@@ -95,7 +95,10 @@ public class PortalService {
             street.setUlNazwaGlowna((String) innerMap.get("ulNazwaGlowna"));
             street.setUlIdTeryt((String) innerMap.get("ulIdTeryt"));
             street.setUlIIPId((String) innerMap.get("ulIIPId"));
-            resultMap.put(street.getUlIdTeryt(), street);
+            if (street.getUlIdTeryt() != null) {
+//                street.setUlIdTeryt("brak");
+                resultMap.put(street.getUlIdTeryt(), street);
+            }
         }
         return resultMap;
     }
