@@ -1,0 +1,43 @@
+body {
+    background-color: lightgray;
+}
+
+.addressForm {
+    grid-area: formularz;
+}
+
+.emptyForNow {
+    grid-area: puste;
+}
+
+.infoAddress {
+    grid-area: informacje;
+}
+
+.addressMap {
+    grid-area: ortofoto;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-areas:
+    'formularz ortofoto'
+    'puste informacje';
+    grid-gap: 10px;
+    background-color: orange;
+    padding: 10px;
+}
+
+.grid-container > div {
+    background-color: wheat;
+    text-align: center;
+    padding: 20px;
+}
+
+.addressForm {
+    font-size: 20px;
+}
+
+#province, #county, #commune, #town, #street, #address {
+    font-size: 20px;
+}
