@@ -92,11 +92,21 @@ public class PortalService {
             Map outerMap = (Map) o;
             Map innerMap = (Map) outerMap.get("ulica");
             Street street = new Street();
-            street.setUlNazwaGlowna((String) innerMap.get("ulNazwaGlowna"));
+            StringBuilder fullName = new StringBuilder();
+            if (innerMap.get("ulNazwaPrzed1") != null) {
+                fullName.append(innerMap.get("ulNazwaPrzed1")).append(" ");
+            }
+            if (innerMap.get("ulNazwaPrzed2") != null) {
+                fullName.append(innerMap.get("ulNazwaPrzed2")).append(" ");
+            }
+            if (innerMap.get("ulNazwaCzesc") != null) {
+                fullName.append(innerMap.get("ulNazwaCzesc")).append(" ");
+            }
+            fullName.append((String) innerMap.get("ulNazwaGlowna"));
+            street.setUlNazwaGlowna(fullName.toString());
             street.setUlIdTeryt((String) innerMap.get("ulIdTeryt"));
             street.setUlIIPId((String) innerMap.get("ulIIPId"));
             if (street.getUlIdTeryt() != null) {
-//                street.setUlIdTeryt("brak");
                 resultMap.put(street.getUlIdTeryt(), street);
             }
         }

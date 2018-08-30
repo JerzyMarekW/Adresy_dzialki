@@ -41,3 +41,13 @@ body {
 #province, #county, #commune, #town, #street, #address {
     font-size: 20px;
 }
+
+#searchAddress {
+    background-color: wheat;
+    color: black;
+    font-size: 20px;
+}
+
+#searchAddress:hover {
+    background-color: orangered;
+}

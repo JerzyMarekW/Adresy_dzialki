@@ -185,23 +185,23 @@
             ILITEAPI.init({
                 "divId": "iapi",
                 "width": 600,
-                "height": 300,
-                "activeGpMapId": "gp0",
-                "activeGpMaps": ["gp0", "gp1"],
-                "activeGpActions": ["pan", "fullExtent"],
-                "scale": 2000,
-                "marker": {
-                    //jakis kretyn nie wiedzial ze w geodezji wspolrzedne sa zamienione
-                    "x": globalY.toFixed(0),
-                    "y": globalX.toFixed(0),
-                    "scale": 2000,
-                    "Sr" : 2180,
-                    "opts": {
-                        "title": globalNameTown,
-                        "content": globalNameStreet + " " + globalNameAddress
-                    }
-                }
+                "height": 400,
+                "activeGpMapId": "gp4",
+                "activeGpMaps": ["gp4"],
+                "activeGpActions": ["pan", "fullExtent"]
             });
+        }
+
+
+        function markAddress(x, y, townName, streetName, addressName) {
+            if (streetName === "---") {
+                streetName = "";
+            }
+            var markerDesc = {id : undefined, title: townName, content: streetName + " " + addressName, show: true, deleteTime : undefined};
+            // jakis kretyn nie wiedzial ze w geodezji wspolrzedne sa zamienione
+            // trzeba zmienic w wywolaniu funkcji 'x' z 'y'
+            ILITEAPI.showMarker(y, x, undefined, markerDesc);
+            info();
         }
 
         function info() {
@@ -220,11 +220,13 @@
             addressInfo.innerHTML = valueHTML;
         }
 
+
     </script>
     <meta charset="UTF-8">
     <title>Działki i adresy</title>
 </head>
-<body>
+
+<body onload="initMap()">
 <div class="grid-container">
     <div class="addressForm">
         <form method="post">
@@ -258,11 +260,12 @@
 
             </select> <br>
         </form>
+        <br>
+        <button id = "searchAddress" onclick="markAddress(globalX,globalY,globalNameTown,globalNameStreet,globalNameAddress)">Wyszukaj adres!</button>
     </div>
 
     <div class="emptyForNow">
-        <button onclick="initMap()">Mapa</button>
-        <button onclick="info()">Informacje o adresie</button>
+
     </div>
 
     <div id="infoAddress">
