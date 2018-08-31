@@ -16,6 +16,8 @@
         var globalNameAddress;
         var globalX;
         var globalY;
+        var globalNorth;
+        var globalEast;
         var globalPostalCode;
         // odswieza liste wojewodztw przy wejsciu na strone
         $(document).ready(function () {
@@ -174,6 +176,8 @@
                             globalPostalCode = globalTable[i].pktKodPocztowy;
                             globalX = globalTable[i].pktX;
                             globalY = globalTable[i].pktY;
+                            globalNorth = globalTable[i].pktN;
+                            globalEast = globalTable[i].pktE;
                             break;
                         }
                     }
@@ -192,16 +196,41 @@
             });
         }
 
+        function processAddressRequest() {
+            if (globalNameAddress !== "brak") {
+                info();
+                markAddress();
+            } else {
+                alert('Nie wybrano adresu');
+            }
+        }
 
-        function markAddress(x, y, townName, streetName, addressName) {
+        function markAddress() {
+            var streetName = globalNameStreet;
             if (streetName === "---") {
                 streetName = "";
             }
-            var markerDesc = {id : undefined, title: townName, content: streetName + " " + addressName, show: true, deleteTime : undefined};
+            var markerDesc = {
+                id: undefined,
+                title: globalNameTown,
+                content: streetName + " " + globalNameAddress,
+                show: true,
+                deleteTime: undefined
+            };
             // jakis kretyn nie wiedzial ze w geodezji wspolrzedne sa zamienione
             // trzeba zmienic w wywolaniu funkcji 'x' z 'y'
-            ILITEAPI.showMarker(y, x, undefined, markerDesc);
-            info();
+            ILITEAPI.showMarker(globalY, globalX, undefined, markerDesc);
+        }
+
+        function loadStreetView() {
+            if (globalNameAddress !== "brak") {
+                var streetViewURL = "http://maps.google.com/maps?q=&layer=c&cbll=";
+                streetViewURL += globalNorth + "," + globalEast;
+                var win = window.open(streetViewURL, '_blank');
+                win.focus();
+            } else {
+                alert('Nie wybrano adresu');
+            }
         }
 
         function info() {
@@ -215,8 +244,10 @@
             valueHTML += "Adres: " + globalNameAddress + " <br>";
             valueHTML += "Kod pocztowy: " + globalPostalCode + " <br>";
             valueHTML += "Współrzędne (układ 92): <br>";
-            valueHTML += "X: " + globalX + " <br>";
-            valueHTML += "Y: " + globalY + " <br>";
+            valueHTML += "X: " + globalX.toFixed(2) + " <br>";
+            valueHTML += "Y: " + globalY.toFixed(2) + " <br>";
+            valueHTML += "N:" + globalNorth.toFixed(6) + "<br>";
+            valueHTML += "E:" + globalEast.toFixed(6) + "<br>";
             addressInfo.innerHTML = valueHTML;
         }
 
@@ -261,10 +292,11 @@
             </select> <br>
         </form>
         <br>
-        <button id = "searchAddress" onclick="markAddress(globalX,globalY,globalNameTown,globalNameStreet,globalNameAddress)">Wyszukaj adres!</button>
+        <button id="searchAddress" onclick="processAddressRequest()">Wyszukaj adres!</button>
+        <button id="showStreetView" onclick="loadStreetView()">Pokaż w Google Street View</button>
     </div>
 
-    <div class="emptyForNow">
+    <div id="streetView" class="emptyForNow">
 
     </div>
 
@@ -275,4 +307,5 @@
     <div class="addressMap" id="iapi">
     </div>
 </div>
+
 </body>

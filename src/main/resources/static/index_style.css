@@ -42,12 +42,12 @@ body {
     font-size: 20px;
 }
 
-#searchAddress {
+#searchAddress, #showStreetView {
     background-color: wheat;
     color: black;
     font-size: 20px;
 }
 
-#searchAddress:hover {
+#searchAddress:hover, #showStreetView:hover {
     background-color: orangered;
 }
