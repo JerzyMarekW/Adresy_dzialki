@@ -1,4 +1,4 @@
-package pl.jwojcik.adresy_dzialki;
+package pl.jwojcik.adresy_dzialki.utils;
 
 import lombok.Data;
 

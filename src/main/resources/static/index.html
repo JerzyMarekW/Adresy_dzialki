@@ -251,6 +251,12 @@
             addressInfo.innerHTML = valueHTML;
         }
 
+        function registerPopup() {
+            var popup = document.getElementById("registerForm");
+            var popupCont = document.getElementById("registerContainer");
+            // popupCont.style.visibility = ""
+        }
+
 
     </script>
     <meta charset="UTF-8">
@@ -258,7 +264,26 @@
 </head>
 
 <body onload="initMap()">
+<div id="registerContainer">
+    <form id="registerForm">
+        <input id="email" name="email" placeholder="email" type="text">
+        <input id="username" name="login" placeholder="login" type="text">
+        <input id="userpassword" name="password" placeholder="password" type="text">
+        <input id="usersubmit" type="submit" value="zapisz dane">
+    </form>
+</div>
 <div class="grid-container">
+    <div id="menuid" class="menuBar">
+        <button id="zarejestruj" onclick="registerPopup()">Zarejestruj się</button>
+        <form>
+            Login:
+            <input type="text" name="login">
+            Hasło:
+            <input type="text" name="hasło">
+            <input id="zaloguj" type="submit" value="Zaloguj się">
+        </form>
+    </div>
+
     <div class="addressForm">
         <form method="post">
             Województwo: <br>
@@ -297,7 +322,7 @@
     </div>
 
     <div id="streetView" class="emptyForNow">
-
+        <p>TEST</p>
     </div>
 
     <div id="infoAddress">

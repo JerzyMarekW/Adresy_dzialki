@@ -1,7 +1,9 @@
-package pl.jwojcik.adresy_dzialki;
+package pl.jwojcik.adresy_dzialki.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import pl.jwojcik.adresy_dzialki.model.*;
+import pl.jwojcik.adresy_dzialki.utils.ComplexNumber;
 
 import java.util.List;
 import java.util.Map;
