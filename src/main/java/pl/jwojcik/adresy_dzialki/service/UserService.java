@@ -6,7 +6,9 @@ import pl.jwojcik.adresy_dzialki.model.AddressMetadata;
 import pl.jwojcik.adresy_dzialki.model.User;
 import pl.jwojcik.adresy_dzialki.repository.UserRepository;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +25,11 @@ public class UserService {
         }
     }
 
-    public void addAddressToUser(AddressMetadata addressMetadata, Integer id) {
-        findById(id).ifPresent(user -> {});
+    public void addAddressToUser(AddressMetadata addressMetadata, String name) {
+        userRepository.findByName(name).ifPresent(user -> {
+            user.getAddresses().add(addressMetadata);
+            userRepository.save(user);
+        });
     }
 
     public Optional<User> findById(Integer id) {
@@ -33,5 +38,15 @@ public class UserService {
 
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
+    }
+
+    public boolean validateLogin(String name, String password) {
+        Optional<User> optionalUser = userRepository.findByName(name);
+        return optionalUser.map(user -> user.getPassword().equals(password)).orElse(false);
+    }
+
+    public Set<AddressMetadata> getAddresses(String name) {
+        Optional<User> optionalUser = userRepository.findByName(name);
+        return optionalUser.map(User::getAddresses).orElse(new HashSet<>());
     }
 }

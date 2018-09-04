@@ -19,6 +19,8 @@ public class AddressMetadata {
     private String town;
     private String street;
     private String address;
+    private String townName;
+    private String streetName;
 
     @ManyToOne
     User user;
