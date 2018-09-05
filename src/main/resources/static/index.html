@@ -4,265 +4,79 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="http://mapy.geoportal.gov.pl/iMapLite/js/imapLiteApi-core.js" type="text/javascript"
             charset="utf-8"></script>
-    <script>
+    <script src="utils.js"></script>
 
-        // zmienne globalne
-        var globalNameProvince;
-        var globalNameCounty;
-        var globalNameCommune;
-        var globalNameTown;
-        var globalNameStreet;
-        var globalTable;
-        var globalNameAddress;
-        var globalX;
-        var globalY;
-        var globalPostalCode;
-        // odswieza liste wojewodztw przy wejsciu na strone
-        $(document).ready(function () {
-            $.ajax({
-                url: "/province", success: function (result) {
-                    var provinceSelect = document.getElementById("province");
-                    var i;
-                    var valueHTML = "";
-                    for (i = 0; i < result.length; i++) {
-                        valueHTML += "<option value='" + result[i].wojIdTeryt + "'>" + result[i].wojNazwa + "</option>";
-                    }
-                    provinceSelect.innerHTML = valueHTML;
-                    $("#province").trigger("change");
-                }
-            });
-        });
-
-        // odswieza liste powiatow przy zmianie wojewodztwa
-        $(document).ready(function () {
-            $('#province').change(function () {
-                var provinceSelect = document.getElementById("province");
-                var provinceOptions = provinceSelect.options;
-                var provinceValue = provinceOptions[provinceOptions.selectedIndex].value;
-                globalNameProvince = provinceOptions[provinceOptions.selectedIndex].innerHTML;
-                $.ajax({
-                    url: "/county/" + provinceValue, success: function (result) {
-                        var countySelect = document.getElementById("county");
-                        var i;
-                        var valueHTML = "";
-                        for (i = 0; i < result.length; i++) {
-                            valueHTML += "<option value='" + result[i].powIdTeryt + "'>" + result[i].powNazwa + "</option>";
-                        }
-                        countySelect.innerHTML = valueHTML;
-                        $("#county").trigger("change");
-                    }
-                });
-            })
-        });
-
-        // odswieza liste gmin przy zmianie powiatu
-        $(document).ready(function () {
-            $('#county').change(function () {
-                var countySelect = document.getElementById("county");
-                var countyOptions = countySelect.options;
-                var countyValue = countyOptions[countyOptions.selectedIndex].value;
-                globalNameCounty = countyOptions[countyOptions.selectedIndex].innerHTML;
-                $.ajax({
-                    url: "/commune/" + countyValue, success: function (result) {
-                        var communeSelect = document.getElementById("commune");
-                        var i;
-                        var valueHTML = "";
-                        for (i = 0; i < result.length; i++) {
-                            valueHTML += "<option value='" + result[i].gmIdTeryt + "'>" + result[i].gmNazwa + "</option>";
-                        }
-                        communeSelect.innerHTML = valueHTML;
-                        $("#commune").trigger("change");
-                    }
-                });
-            })
-        });
-
-        // odswieza liste miejscowosci przy zmianie gminy
-        $(document).ready(function () {
-            $('#commune').change(function () {
-                var communeSelect = document.getElementById("commune");
-                var communeOptions = communeSelect.options;
-                var communeValue = communeOptions[communeOptions.selectedIndex].value;
-                globalNameCommune = communeOptions[communeOptions.selectedIndex].innerHTML;
-                $.ajax({
-                    url: "/town/" + communeValue, success: function (result) {
-                        var townSelect = document.getElementById("town");
-                        var i;
-                        var valueHTML = "";
-                        for (i = 0; i < result.length; i++) {
-                            valueHTML += "<option value='" + result[i].miejscIdTeryt + "'>" + result[i].miejscNazwa + "</option>";
-                        }
-                        townSelect.innerHTML = valueHTML;
-                        $("#town").trigger("change");
-                    }
-                });
-            })
-        });
-
-        // odswieza liste ulic przy zmianie miejscowosci
-        $(document).ready(function () {
-            $('#town').change(function () {
-                var communeSelect = document.getElementById("commune");
-                var communeOptions = communeSelect.options;
-                var communeValue = communeOptions[communeOptions.selectedIndex].value;
-                var townSelect = document.getElementById("town");
-                var townOptions = townSelect.options;
-                var townValue = townOptions[townOptions.selectedIndex].value;
-                globalNameTown = townOptions[townOptions.selectedIndex].innerHTML;
-                $.ajax({
-                    url: "/street/" + communeValue + "/" + townValue, success: function (result) {
-                        var streetSelect = document.getElementById("street");
-                        var i;
-                        var valueHTML = "<option value='brak'>----</option>";
-                        for (i = 0; i < result.length; i++) {
-                            valueHTML += "<option value='" + result[i].ulIdTeryt + "'>" + result[i].ulNazwaGlowna + "</option>";
-                        }
-                        streetSelect.innerHTML = valueHTML;
-                        $("#street").trigger("change");
-                    }
-                });
-            })
-        });
-
-        // odsiweza liste adresow przy zmianie ulicy
-        $(document).ready(function () {
-            $('#street').change(function () {
-                var communeSelect = document.getElementById("commune");
-                var communeOptions = communeSelect.options;
-                var communeValue = communeOptions[communeOptions.selectedIndex].value;
-                var townSelect = document.getElementById("town");
-                var townOptions = townSelect.options;
-                var townValue = townOptions[townOptions.selectedIndex].value;
-                var streetSelect = document.getElementById("street");
-                var streetOptions = streetSelect.options;
-                var streetValue = streetOptions[streetOptions.selectedIndex].value;
-                globalNameStreet = streetOptions[streetOptions.selectedIndex].innerHTML;
-                var streetURL;
-                if (streetValue === "brak") {
-                    streetURL = "/address/" + communeValue + "/" + townValue;
-                } else {
-                    streetURL = "/address2/" + communeValue + "/" + townValue + "/" + streetValue;
-                }
-                $.ajax({
-                    url: streetURL, success: function (result) {
-                        var addressSelect = document.getElementById("address");
-                        var i;
-                        var valueHTML = "";
-                        for (i = 0; i < result.length; i++) {
-                            valueHTML += "<option value='" + result[i].pktNumer + "'>" + result[i].pktNumer + "</option>";
-                        }
-                        if (result.length === 0) {
-                            valueHTML += "<option value='brak'>brak adresów</option>"
-                        }
-                        addressSelect.innerHTML = valueHTML;
-                        globalTable = result;
-                        $("#address").trigger("change");
-                    }
-                });
-            })
-        });
-
-        $(document).ready(function () {
-            $('#address').change(function () {
-                var addressSelect = document.getElementById("address");
-                var addressOptions = addressSelect.options;
-                globalNameAddress = addressOptions[addressOptions.selectedIndex].value;
-                if (globalNameAddress !== "brak") {
-                    var i;
-                    for (i = 0; i < globalTable.length; i++) {
-                        if (globalTable[i].pktNumer === globalNameAddress) {
-                            globalPostalCode = globalTable[i].pktKodPocztowy;
-                            globalX = globalTable[i].pktX;
-                            globalY = globalTable[i].pktY;
-                            break;
-                        }
-                    }
-                }
-            })
-        });
-
-        function initMap() {
-            ILITEAPI.init({
-                "divId": "iapi",
-                "width": 600,
-                "height": 300,
-                "activeGpMapId": "gp0",
-                "activeGpMaps": ["gp0", "gp1"],
-                "activeGpActions": ["pan", "fullExtent"],
-                "scale": 2000,
-                "marker": {
-                    //jakis kretyn nie wiedzial ze w geodezji wspolrzedne sa zamienione
-                    "x": globalY.toFixed(0),
-                    "y": globalX.toFixed(0),
-                    "scale": 2000,
-                    "Sr" : 2180,
-                    "opts": {
-                        "title": globalNameTown,
-                        "content": globalNameStreet + " " + globalNameAddress
-                    }
-                }
-            });
-        }
-
-        function info() {
-            var valueHTML = "";
-            var addressInfo = document.getElementById("infoAddress");
-            valueHTML += "Województwo: " + globalNameProvince + " <br>";
-            valueHTML += "Powiat: " + globalNameCounty + " <br>";
-            valueHTML += "Gmina: " + globalNameCommune + " <br>";
-            valueHTML += "Miejscowość: " + globalNameTown + " <br>";
-            valueHTML += "Ulica: " + globalNameStreet + " <br>";
-            valueHTML += "Adres: " + globalNameAddress + " <br>";
-            valueHTML += "Kod pocztowy: " + globalPostalCode + " <br>";
-            valueHTML += "Współrzędne (układ 92): <br>";
-            valueHTML += "X: " + globalX + " <br>";
-            valueHTML += "Y: " + globalY + " <br>";
-            addressInfo.innerHTML = valueHTML;
-        }
-
-    </script>
     <meta charset="UTF-8">
     <title>Działki i adresy</title>
 </head>
-<body>
+
+<body onload="initMap()">
+
+<div id="registerContainer">
+    <form id="registerForm">
+        <input id="email" name="email" placeholder="email" type="text">
+        <input id="username" name="login" placeholder="login" type="text">
+        <input id="userpassword" name="password" placeholder="password" type="text">
+        <input id="usersubmit" type="submit" value="zapisz dane">
+    </form>
+</div>
+
 <div class="grid-container">
+    <div id="menuid" class="menuBar">
+
+        <form id="loginForm">
+            Login:
+            <input id="typedName" type="text" name="login">
+            Hasło:
+            <input id="typedPassword" type="password" name="hasło">
+        </form>
+
+        <div id="registerUser">
+            <button id="zarejestruj" onclick="registerPopup()">Zarejestruj się</button>
+        </div>
+
+        <div id="isLogged">
+            <button id="zaloguj">Zaloguj się</button>
+        </div>
+
+        <div id="searchedList">
+
+        </div>
+    </div>
+
     <div class="addressForm">
-        <form method="post">
+        <form>
             Województwo: <br>
             <select id="province">
-
             </select> <br>
 
             Powiat: <br>
             <select id="county">
-
             </select> <br>
 
             Gmina: <br>
             <select id="commune">
-
             </select> <br>
 
             Miejscowość: <br>
             <select id="town">
-
             </select> <br>
 
             Ulica: <br>
             <select id="street">
-
             </select> <br>
 
             Adres: <br>
             <select id="address">
-
             </select> <br>
         </form>
+        <br>
+        <button id="searchAddress" onclick="processAddressRequest()">Wyszukaj adres!</button>
+        <button id="showStreetView" onclick="loadStreetView()">Pokaż w Google Street View</button>
     </div>
 
-    <div class="emptyForNow">
-        <button onclick="initMap()">Mapa</button>
-        <button onclick="info()">Informacje o adresie</button>
+    <div id="streetView" class="emptyForNow">
+        <p>TEST</p>
     </div>
 
     <div id="infoAddress">
@@ -272,4 +86,5 @@
     <div class="addressMap" id="iapi">
     </div>
 </div>
+
 </body>

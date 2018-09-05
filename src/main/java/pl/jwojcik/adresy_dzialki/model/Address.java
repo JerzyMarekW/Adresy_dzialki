@@ -1,4 +1,4 @@
-package pl.jwojcik.adresy_dzialki;
+package pl.jwojcik.adresy_dzialki.model;
 
 import lombok.Data;
 
@@ -9,5 +9,7 @@ public class Address {
     private String pktKodPocztowy;
     private Double pktX;
     private Double pktY;
+    private Double pktN;
+    private Double pktE;
     private String pktPrgIIPId;
 }

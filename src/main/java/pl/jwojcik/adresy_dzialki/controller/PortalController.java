@@ -1,4 +1,4 @@
-package pl.jwojcik.adresy_dzialki;
+package pl.jwojcik.adresy_dzialki.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -6,6 +6,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import pl.jwojcik.adresy_dzialki.service.PortalService;
+import pl.jwojcik.adresy_dzialki.model.*;
+
+import java.util.Arrays;
 
 @RestController
 @RequiredArgsConstructor
@@ -42,11 +46,28 @@ public class PortalController {
 
     @GetMapping("/address/{communeTeryt}/{townTeryt}")
     public Address[] getAddresses(@PathVariable String communeTeryt, @PathVariable String townTeryt) {
-        return portalService.findAllAddresses(communeTeryt, townTeryt).values().toArray(new Address[0]);
+        Address[] result = portalService.findAllAddresses(communeTeryt, townTeryt).values().toArray(new Address[0]);
+        sortAddressArray(result);
+        return result;
     }
 
     @GetMapping("/address2/{communeTeryt}/{townTeryt}/{streetTeryt}")
     public Address[] getAddressesFromStreet(@PathVariable String communeTeryt, @PathVariable String townTeryt, @PathVariable String streetTeryt) {
-        return portalService.findAllAddressesFromStreet(communeTeryt, townTeryt, streetTeryt).values().toArray(new Address[0]);
+        Address[] result = portalService.findAllAddressesFromStreet(communeTeryt, townTeryt, streetTeryt).values().toArray(new Address[0]);
+        sortAddressArray(result);
+        return result;
+    }
+
+    private void sortAddressArray(Address[] addresses) {
+        Arrays.sort(addresses, (a, b) -> {
+            Integer aNumber = Integer.parseInt(a.getPktNumer().replaceAll("\\D+", ""));
+            Integer bNumber = Integer.parseInt(b.getPktNumer().replaceAll("\\D+", ""));
+            if (aNumber.equals(bNumber)) {
+                return a.getPktNumer().replaceAll("\\d+", "")
+                        .compareTo(b.getPktNumer().replaceAll("\\d+", ""));
+            } else {
+                return aNumber.compareTo(bNumber);
+            }
+        });
     }
 }
