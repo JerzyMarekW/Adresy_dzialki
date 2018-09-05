@@ -27,6 +27,8 @@ public class UserService {
 
     public void addAddressToUser(AddressMetadata addressMetadata, String name) {
         userRepository.findByName(name).ifPresent(user -> {
+
+            addressMetadata.setUser(user);
             user.getAddresses().add(addressMetadata);
             userRepository.save(user);
         });

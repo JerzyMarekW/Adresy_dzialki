@@ -1,6 +1,8 @@
 package pl.jwojcik.adresy_dzialki.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +14,7 @@ import javax.persistence.ManyToOne;
 public class AddressMetadata {
     @Id
     @GeneratedValue
+    @JsonIgnore
     private Integer id;
     private String province;
     private String county;
@@ -23,5 +26,7 @@ public class AddressMetadata {
     private String streetName;
 
     @ManyToOne
+    @EqualsAndHashCode.Exclude
+    @JsonIgnore
     User user;
 }

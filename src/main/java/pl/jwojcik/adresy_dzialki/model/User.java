@@ -1,6 +1,7 @@
 package pl.jwojcik.adresy_dzialki.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -16,5 +17,6 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
     private Set<AddressMetadata> addresses;
 }

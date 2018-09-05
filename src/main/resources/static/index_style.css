@@ -48,13 +48,13 @@ body {
     font-size: 20px;
 }
 
-#searchAddress, #showStreetView, #zaloguj, #zarejestruj, #wyloguj {
+#searchAddress, #showStreetView, #zaloguj, #zarejestruj, #wyloguj, #registerUserData, #anuluj {
     background-color: wheat;
     color: black;
     font-size: 20px;
 }
 
-#searchAddress:hover, #showStreetView:hover, #zaloguj:hover, #zarejestruj:hover {
+#searchAddress:hover, #showStreetView:hover, #zaloguj:hover, #zarejestruj:hover, #registerUserData:hover, #anuluj:hover {
     background-color: orangered;
 }
 
