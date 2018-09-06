@@ -258,18 +258,20 @@ function loadStreetView() {
 function info() {
     var valueHTML = "";
     var addressInfo = document.getElementById("infoAddress");
-    valueHTML += "Województwo: " + globalNameProvince + " <br>";
-    valueHTML += "Powiat: " + globalNameCounty + " <br>";
-    valueHTML += "Gmina: " + globalNameCommune + " <br>";
-    valueHTML += "Miejscowość: " + globalNameTown + " <br>";
-    valueHTML += "Ulica: " + globalNameStreet + " <br>";
-    valueHTML += "Adres: " + globalNameAddress + " <br>";
+    var northMinutes = Math.floor((globalNorth - Math.floor(globalNorth)) * 60.0);
+    var northSeconds = ((((globalNorth - Math.floor(globalNorth)) * 60.0) - northMinutes) * 60.0).toFixed(2);
+    valueHTML += "woj. " + globalNameProvince;
+    valueHTML += ", pow. " + globalNameCounty;
+    valueHTML += ", gm. " + globalNameCommune + " <br>";
+    valueHTML += " " + globalNameTown;
+    valueHTML += " " + globalNameStreet;
+    valueHTML += " " + globalNameAddress + " <br>";
     valueHTML += "Kod pocztowy: " + globalPostalCode + " <br>";
-    valueHTML += "Współrzędne (układ 92): <br>";
-    valueHTML += "X: " + globalX.toFixed(2) + " <br>";
-    valueHTML += "Y: " + globalY.toFixed(2) + " <br>";
-    valueHTML += "N:" + globalNorth.toFixed(6) + "<br>";
-    valueHTML += "E:" + globalEast.toFixed(6) + "<br>";
+    valueHTML += "Współrzędne: <br>";
+    valueHTML += "X: " + globalX.toFixed(2);
+    valueHTML += "--- N:" + globalNorth.toFixed(6) + "<br>";
+    valueHTML += "Y: " + globalY.toFixed(2);
+    valueHTML += "--- E:" + globalEast.toFixed(6) + "<br>";
     addressInfo.innerHTML = valueHTML;
 }
 
@@ -347,6 +349,7 @@ $(document).ready(function () {
             contentType: "application/json; charset=utf-8",
             url: "/user", success: function (result) {
                 if (result) {
+                    globalUserName = givenRegisterData.name;
                     document.getElementById("loginForm").innerHTML = "";
                     document.getElementById("registerUser").innerHTML = "";
                     document.getElementById("isLogged").innerHTML = "<button id=\"wyloguj\">Wyloguj się</button>";
@@ -385,6 +388,8 @@ $(document).ready(function () {
         var selectedIndex = selectList.options[selectList.selectedIndex].value;
 
         document.getElementById("province").value = addressDataList[selectedIndex].province;
+        addressData.province = addressDataList[selectedIndex].province;
+        globalNameProvince = document.getElementById("province").options[document.getElementById("province").selectedIndex].innerHTML;
         $.ajax({
             url: "/county/" + addressDataList[selectedIndex].province, success: function (result) {
                 var countySelect = document.getElementById("county");
@@ -395,6 +400,8 @@ $(document).ready(function () {
                 }
                 countySelect.innerHTML = valueHTML;
                 document.getElementById("county").value = addressDataList[selectedIndex].county;
+                addressData.county = addressDataList[selectedIndex].county;
+                globalNameCounty = document.getElementById("county").options[document.getElementById("county").selectedIndex].innerHTML;
             }
         });
 
@@ -408,6 +415,8 @@ $(document).ready(function () {
                 }
                 communeSelect.innerHTML = valueHTML;
                 document.getElementById("commune").value = addressDataList[selectedIndex].commune;
+                addressData.commune = addressDataList[selectedIndex].commune;
+                globalNameCommune = document.getElementById("commune").options[document.getElementById("commune").selectedIndex].innerHTML;
             }
         });
 
@@ -421,6 +430,8 @@ $(document).ready(function () {
                 }
                 townSelect.innerHTML = valueHTML;
                 document.getElementById("town").value = addressDataList[selectedIndex].town;
+                addressData.town = addressDataList[selectedIndex].town;
+                globalNameTown = document.getElementById("town").options[document.getElementById("town").selectedIndex].innerHTML;
             }
         });
 
@@ -435,6 +446,8 @@ $(document).ready(function () {
                 }
                 streetSelect.innerHTML = valueHTML;
                 document.getElementById("street").value = addressDataList[selectedIndex].street;
+                addressData.street = addressDataList[selectedIndex].street;
+                globalNameStreet = document.getElementById("street").options[document.getElementById("street").selectedIndex].innerHTML;
             }
         });
 
@@ -460,7 +473,6 @@ $(document).ready(function () {
                 document.getElementById("address").value = addressDataList[selectedIndex].address;
                 globalNameAddress = addressDataList[selectedIndex].address;
                 if (addressDataList[selectedIndex].address !== "brak") {
-                    var i;
                     for (i = 0; i < globalTable.length; i++) {
                         if (globalTable[i].pktNumer === globalNameAddress) {
                             globalPostalCode = globalTable[i].pktKodPocztowy;
@@ -474,7 +486,5 @@ $(document).ready(function () {
                 }
             }
         });
-
-
     })
 });

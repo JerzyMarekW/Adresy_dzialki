@@ -15,6 +15,7 @@ public class AddressMetadata {
     @Id
     @GeneratedValue
     @JsonIgnore
+    @EqualsAndHashCode.Exclude
     private Integer id;
     private String province;
     private String county;
