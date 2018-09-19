@@ -1,9 +1,9 @@
-Aplikacja webowa wyszukująca adresy na podstawie danych Głóengo Urzędu Geodezji i Kartografiii.
+Aplikacja webowa wyszukująca adresy na podstawie danych Głównego Urzędu Geodezji i Kartografiii.
 
-- wyszukiwanie adresów w całej polsce
-- wyświetlanie informacji o wyszukanym adresie
-- wyświetlenie fragemntu mapy z wyszukanym adresem na podstawie serwisu geoportal.gov.pl
-- wyświetlenie loaklizacji adresu w Google Street View
+- wyszukiwanie adresów w całej Polsce.
+- wyświetlanie informacji o wyszukanym adresie.
+- wyświetlenie fragemntu mapy z wyszukanym adresem na podstawie serwisu geoportal.gov.pl.
+- wyświetlenie loaklizacji adresu w Google Street View.
 
 
 Wykorzeystane technologie:
