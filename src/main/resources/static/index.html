@@ -12,35 +12,19 @@
 
 <body onload="initMap()">
 
-<div id="registerContainer">
-    <form id="registerForm">
-        <input id="email" name="email" placeholder="email" type="text">
-        <input id="username" name="login" placeholder="login" type="text">
-        <input id="userpassword" name="password" placeholder="password" type="text">
-        <input id="usersubmit" type="submit" value="zapisz dane">
-    </form>
-</div>
-
 <div class="grid-container">
     <div id="menuid" class="menuBar">
 
         <form id="loginForm">
-            Login:
-            <input id="typedName" type="text" name="login">
-            Hasło:
-            <input id="typedPassword" type="password" name="hasło">
         </form>
 
         <div id="registerUser">
-            <button id="zarejestruj" onclick="registerPopup()">Zarejestruj się</button>
         </div>
 
         <div id="isLogged">
-            <button id="zaloguj">Zaloguj się</button>
         </div>
 
         <div id="searchedList">
-
         </div>
     </div>
 
@@ -73,10 +57,6 @@
         <br>
         <button id="searchAddress" onclick="processAddressRequest()">Wyszukaj adres!</button>
         <button id="showStreetView" onclick="loadStreetView()">Pokaż w Google Street View</button>
-    </div>
-
-    <div id="streetView" class="emptyForNow">
-        <p>TEST</p>
     </div>
 
     <div id="infoAddress">

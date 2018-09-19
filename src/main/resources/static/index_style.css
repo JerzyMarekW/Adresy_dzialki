@@ -2,20 +2,12 @@ body {
     background-color: lightgray;
 }
 
-#menuid {
-    text-align: right;
-}
-
 .menuBar {
     grid-area: pasekmenu;
 }
 
 .addressForm {
     grid-area: formularz;
-}
-
-.emptyForNow {
-    grid-area: puste;
 }
 
 .infoAddress {
@@ -28,7 +20,7 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-areas: 'pasekmenu pasekmenu' 'formularz ortofoto' 'puste informacje';
+    grid-template-areas: 'pasekmenu informacje' 'formularz ortofoto';
     grid-gap: 10px;
     background-color: orange;
     padding: 10px;
@@ -56,14 +48,4 @@ body {
 
 #searchAddress:hover, #showStreetView:hover, #zaloguj:hover, #zarejestruj:hover, #registerUserData:hover, #anuluj:hover {
     background-color: orangered;
-}
-
-#registerContainer {
-    visibility: hidden;
-    position: relative;
-}
-
-#registerForm {
-    visibility: hidden;
-    position: absolute;
 }
